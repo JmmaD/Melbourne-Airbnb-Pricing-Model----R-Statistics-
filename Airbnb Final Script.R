@@ -34,12 +34,12 @@ ggplot(data_cleaned, aes(x = price)) +
   geom_histogram(binwidth = 20) +
   labs(title = "Cleaned price histogram")
 
-# We choose to only include propertyies with price < 1000
+# Only include propertyies with price < 1000
 clean_data <- data.frame(data) %>%
   filter(price<1000)
 
 
-# We only included the variables that are possibly related to prices.
+# Only included the variables that are possibly related to prices.
 data_cleaned <- clean_data %>%
   dplyr::select(property_type, name, host_response_rate, space, summary, notes, description, access, 
                 transit, cancellation_policy, first_review, last_review, neighborhood, zipcode, neighborhood_overview, 
@@ -383,7 +383,6 @@ summary(back_result)
 
 
 
-
 lm1= lm(price ~ room_type +
           property_type + 
           as.factor(cancellation_policy) +
@@ -404,53 +403,3 @@ lm1= lm(price ~ room_type +
 summary(lm1)
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#text analysis for 'description', beach & clean
-if_beach <- list(grepl("Beach|beach|BEACH", data_cleaned$description))
-data_cleaned["if_beach"] <- if_beach
-head(data_cleaned)
-
-if_clean <- list(grepl("Clean|clean|CLEAN", data_cleaned$description))
-data_cleaned["if_clean"] <- if_clean
-
-
-#visualization and regression for beach & clean verse price
-ggplot(data_cleaned, aes(x=if_beach, y = price)) +
-  geom_boxplot(aes(fill = if_beach))
-
-lm1 = lm(price ~ as.factor(if_beach), data_cleaned)
-summary(lm1)
-
-ggplot(data_cleaned, aes(x=if_clean, y = price)) +
-  geom_boxplot(aes(fill = if_clean))
-
-lm2 = lm(price ~ as.factor(if_clean), data_cleaned)
-summary(lm1)
-
-ggplot(data_cleaned, aes(x=as.factor(smart_location), y = price)) +
-  geom_boxplot(aes(fill = smart_location))
